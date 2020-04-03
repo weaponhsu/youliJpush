@@ -62,7 +62,8 @@ class BaseClient
      */
     public function get(){
         $this->prepareReq();
-        $file =  $this->curlRequest($this->res_url,'', $this->app->header,'GET');
+        $file =  $this->curlRequest($this->res_url,!empty($this->app->params) ? $this->app->params : '',
+            $this->app->header,'GET');
         return json_decode($file,true);
     }
 
@@ -76,6 +77,14 @@ class BaseClient
         $result = $this->curlRequest($this->res_url, json_encode($this->postData), $this->header,'POST');
 
         return json_decode($result, true);
+    }
+
+    public function delete() {
+        $this->prepareReq();
+
+        $this->curlRequest($this->res_url, json_encode($this->postData), $this->header,'DELETE');
+
+        return true;
     }
 
     /**
@@ -105,7 +114,7 @@ class BaseClient
 
         $ch = curl_init();
 
-        if ($method == 'get') {
+        if ($method == 'GET' || $method == 'DELETE') {
             //method get
             if ( !empty($query_data) && is_array($query_data)){
                 $connect_symbol = strpos($base_url, '?') !== false ? '&' : '?';
@@ -117,6 +126,10 @@ class BaseClient
                     $connect_symbol = '&';
                 }
             }
+
+            if ($method == 'DELETE')
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+
         } else {
             if ( !empty($query_data) && is_array($query_data)){
                 foreach($query_data as $key => $val) {
@@ -125,6 +138,7 @@ class BaseClient
                     }
                 }
             }
+            var_dump($query_data);
             //method post
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $query_data);
@@ -149,11 +163,12 @@ class BaseClient
         }
 
         // 设置Basic认证
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, $this->app->app_key . ":" . $this->app->master_secret);
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+//        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+//        curl_setopt($ch, CURLOPT_USERPWD, $this->app->app_key . ":" . $this->app->master_secret);
+//        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
 
         $output = curl_exec($ch);
+        var_dump($output);
 //        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
 //        if ($http_code != '200')
 //            throw new JPushException('asdf', $http_code);

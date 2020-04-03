@@ -23,10 +23,6 @@ class JPush extends BaseClient
     {
         $this->url_info = 'v3/push';
 
-        return $this;
-    }
-
-    public function getResp() {
         return $this->post();
     }
 
