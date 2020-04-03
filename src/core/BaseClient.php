@@ -138,7 +138,6 @@ class BaseClient
                     }
                 }
             }
-            var_dump($query_data);
             //method post
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $query_data);
@@ -168,7 +167,6 @@ class BaseClient
 //        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
 
         $output = curl_exec($ch);
-        var_dump($output);
 //        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
 //        if ($http_code != '200')
 //            throw new JPushException('asdf', $http_code);
