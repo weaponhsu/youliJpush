@@ -5,6 +5,7 @@ namespace ylPush;
 
 
 use ylPush\core\ContainerBase;
+use ylPush\provider\JiguangPushProvider;
 use ylPush\provider\JPushDeviceProvider;
 use ylPush\provider\JPushProvider;
 use ylPush\provider\JPushReportProvider;
@@ -26,8 +27,9 @@ class Push extends ContainerBase
 
     protected $provider = [
         //...其他服务提供者
-        JPushProvider::class,
+//        JPushProvider::class,
         JPushDeviceProvider::class,
-        JPushReportProvider::class
+        JPushReportProvider::class,
+        JiguangPushProvider::class
     ];
 }

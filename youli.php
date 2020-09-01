@@ -6,12 +6,13 @@ require_once realpath(dirname(__FILE__)) . '/vendor/autoload.php';
 
 use ylPush\Push;
 
-$registration_id = '18071adc0391f3ef461';
+//$registration_id = '18071adc0391f3ef461';
+$registration_id = '171976fa8a31fd31939';
 
 $push = new Push();
 
-$push->setAppKey('0ae1ec8e2d1c6aaa0f45aeb1');
-$push->setMasterSecret('25c3f5981d3a396561dd11aa');
+$push->setAppKey('9fe08654a214ed2edc6aea82');
+$push->setMasterSecret('f1f5885fa6f92d4ea453bff0');
 
 $header = [
     'Authorization: Basic ' . base64_encode($push->app_key . ':' . $push->master_secret),
@@ -20,33 +21,35 @@ $header = [
 $push->setHeader($header);
 
 // 推送
-//$push->params = [
-//    'platform' => 'all',
-//    'audience' => [
-//        'registration_id' => [$registration_id]
-//    ],
-//    'notification' => [
-//        'alert' => 'hello!!!'
-//    ],
-//    'message' => [
-//        'msg_content' => 'content',
-//        'title' => 'msg',
-//        'content_type' => 'text',
-//        'extras' => [
-//            'type' => 1, // 类型 1为跳转首页,2为跳转产品详情页,3为系统消息列表页,4为系统消息详情页
-//            'id' => '123', // 当type为2时表示产品编号，当type为4时表示系统消息编号
-//        ]
-//    ]
-//];
+$push->params = [
+    'platform' => 'all',
+    'audience' => [
+        'registration_id' => [$registration_id]
+    ],
+    'notification' => [
+        'alert' => 'hello!!!'
+    ],
+    'message' => [
+        'msg_content' => 'content',
+        'title' => 'msg',
+        'content_type' => 'text',
+        'extras' => [
+            'type' => 1, // 类型 1为跳转首页,2为跳转产品详情页,3为系统消息列表页,4为系统消息详情页
+            'id' => '123', // 当type为2时表示产品编号，当type为4时表示系统消息编号
+        ]
+    ]
+];
 // 按registration_id推送消息
-//$res = $push->jpush->pushPost();
+$res = $push->jpush->pushPost();
 
+var_dump($res);
+exit();
 // ----- 推送状态 -----
 // 根据msg_id获取推送结果
-//$push->params = [
-//    'msg_ids' => '47287848113245957'//$res['msg_id']
-//];
-//var_dump($push->jpush_report->receiveDetail());
+$push->params = [
+    'msg_ids' => '58546878779594944'//$res['msg_id']
+];
+var_dump($push->jpush_report->receiveDetail());
 
 $push->params = [
     'msg_id' => 47287848113245957, // 这个参数必须是int
